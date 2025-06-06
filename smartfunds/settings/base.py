@@ -298,7 +298,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = []  # Will be set in environment-specific files
 
 # Custom Settings
-APP_NAME = 'SmartFunds'
+APP_NAME = 'SmartFunds KE'
 APP_VERSION = '1.0.0'
 API_VERSION = 'v1'
 
