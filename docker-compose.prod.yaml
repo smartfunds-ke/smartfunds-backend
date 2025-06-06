@@ -1,0 +1,108 @@
+x-app-common: &app-common
+  build: 
+    context: .
+    dockerfile: Dockerfile
+  env_file:
+    - .env.production
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+  networks:
+    - app-network
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+   
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+    
+
+  web:
+    <<: *app-common
+    command: gunicorn smartfunds_backend.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --max-requests 1000 --preload
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/app/static:ro
+      - media_volume:/app/media:ro
+      - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - web
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  celery:
+    <<: *app-common
+    command: celery -A smartfunds_backend worker --loglevel=warning --concurrency=2 --max-tasks-per-child=1000
+    volumes:
+      - media_volume:/app/media
+
+  celery-beat:
+    <<: *app-common
+    command: celery -A smartfunds_backend beat --loglevel=warning --pidfile=/tmp/celerybeat.pid
+    volumes:
+      - celery_beat_data:/app/celerybeat-schedule
+
+  # Prometheus service for monitoring
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #   restart: unless-stopped
+  #   networks:
+  #     - app-network
+  #   profiles:
+  #     - monitoring
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  celery_beat_data:
+
+networks:
+  app-network:
+    driver: bridge
