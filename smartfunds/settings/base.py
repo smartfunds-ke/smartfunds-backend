@@ -54,9 +54,10 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'apps.accounts',
     'apps.funds',
+    # 'apps.contracts',
     # 'apps.analytics',
     # 'apps.notifications',
-    'apps.core',
+    # 'apps.core',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -75,7 +76,7 @@ MIDDLEWARE = [
     'apps.core.middleware.HealthCheckMiddleware',
 ]
 
-ROOT_URLCONF = 'smartfunds_backend.urls'
+ROOT_URLCONF = 'smartfunds.urls'
 
 TEMPLATES = [
     {
@@ -93,7 +94,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'smartfunds_backend.wsgi.application'
+WSGI_APPLICATION = 'smartfunds.wsgi.application'
 
 # Database
 DATABASES = {
