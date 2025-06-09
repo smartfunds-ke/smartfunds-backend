@@ -59,10 +59,12 @@ docker-compose up --build
 
 | App         | Responsibility                                |
 | ----------- | --------------------------------------------- |
-| `users`     | Auth, groups, roles (citizen, officer, admin) |
+| `accounts`  | Auth, groups, roles (citizen, officer, admin) |
 | `funds`     | Fund applications, statuses, logs             |
 | `contracts` | Web3 triggers, disbursement logic             |
 | `api`       | Aggregated URL dispatcher                     |
+| `core`      | Core utilities, settings, common logic        |
+| `notifications` | SMS/USSD handlers, Africastalking integration |
 
 ---
 
@@ -79,12 +81,11 @@ docker-compose up --build
 
 ## 📬 SMS/USSD
 
-* Handled via **Africastalking Webhooks**
-* USSD sessions persist using Redis (or fallback cache)
+- Handled via **Africastalking Webhooks**
+- USSD sessions persist using Redis (or fallback cache)
 
 ---
 
 ## 🧾 License
 
 MIT License — For public good / civic tech use.
-

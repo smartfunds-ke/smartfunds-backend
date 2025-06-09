@@ -46,7 +46,7 @@ services:
 
   web:
     <<: *app-common
-    command: gunicorn smartfunds_backend.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --max-requests 1000 --preload
+    command: gunicorn smartfunds.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --max-requests 1000 --preload
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
@@ -74,13 +74,13 @@ services:
 
   celery:
     <<: *app-common
-    command: celery -A smartfunds_backend worker --loglevel=warning --concurrency=2 --max-tasks-per-child=1000
+    command: celery -A smartfunds worker --loglevel=warning --concurrency=2 --max-tasks-per-child=1000
     volumes:
       - media_volume:/app/media
 
   celery-beat:
     <<: *app-common
-    command: celery -A smartfunds_backend beat --loglevel=warning --pidfile=/tmp/celerybeat.pid
+    command: celery -A smartfunds beat --loglevel=warning --pidfile=/tmp/celerybeat.pid
     volumes:
       - celery_beat_data:/app/celerybeat-schedule
 

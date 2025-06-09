@@ -3,7 +3,7 @@ FROM python:3.11-slim-bullseye
 # Development environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    DJANGO_SETTINGS_MODULE=smartfunds_backend.settings.development
+    DJANGO_SETTINGS_MODULE=smartfunds.settings.development
 
 # Install system dependencies including development tools
 RUN apt-get update && apt-get install -y \
@@ -20,10 +20,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt requirements-dev.txt ./
+COPY requirements.txt ./
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip install -r requirements-dev.txt
+    pip install -r requirements.txt
 
 # Copy entrypoint
 COPY ./entrypoint.sh /entrypoint.sh

@@ -1,5 +1,5 @@
 """
-Production settings for smartfunds_backend project.
+Production settings for smartfunds project.
 """
 
 from .base import *

@@ -1,5 +1,5 @@
 """
-Base Django settings for smartfunds_backend project.
+Base Django settings for smartfunds project.
 This file contains settings common to all environments.
 """
 
@@ -53,7 +53,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'apps.accounts',
-    'apps.funds',
+    # 'apps.funds',
     # 'apps.contracts',
     # 'apps.analytics',
     # 'apps.notifications',
@@ -64,7 +64,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,8 +72,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.core.middleware.RequestLoggingMiddleware',
-    'apps.core.middleware.HealthCheckMiddleware',
+    # 'apps.core.middleware.RequestLoggingMiddleware',
+    # 'apps.core.middleware.HealthCheckMiddleware',
 ]
 
 ROOT_URLCONF = 'smartfunds.urls'
@@ -110,7 +110,7 @@ DATABASES = {
 }
 
 # Custom User Model
-AUTH_USER_MODEL = 'apps.accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

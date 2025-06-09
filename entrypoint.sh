@@ -52,6 +52,15 @@ fi
 
 # Run database migrations (only for web service)
 if [ "$1" = "gunicorn" ] || [ "$1" = "python" ] && [ "$2" = "manage.py" ] && [ "$3" = "runserver" ]; then
+    # Create database migrations for development
+    if [ "$DJANGO_SETTINGS_MODULE" = "smartfunds.settings.development" ]; then
+        log_info "Creating database migrations..."
+        python manage.py makemigrations || {
+            log_error "Migration creation failed"
+            exit 1
+        }
+    fi
+
     log_info "Running database migrations..."
     python manage.py migrate --noinput || {
         log_error "Migration failed"

@@ -46,7 +46,7 @@ services:
       redis:
         condition: service_started
     env_file:
-      - .env.development
+      - env/.env.development
     environment:
       - DEBUG=1
       - DJANGO_SETTINGS_MODULE=smartfunds.settings.development
@@ -70,7 +70,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: celery -A smartfunds_backend worker --loglevel=debug --concurrency=1
+    command: celery -A smartfunds worker --loglevel=debug --concurrency=1
     volumes:
       - .:/app
       - pip_cache:/root/.cache/pip
@@ -80,7 +80,7 @@ services:
       redis:
         condition: service_started
     env_file:
-      - .env.development
+      - env/.env.development
     environment:
       - DEBUG=1
 
@@ -88,7 +88,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: celery -A smartfunds_backend beat --loglevel=debug --pidfile=/tmp/celerybeat.pid
+    command: celery -A smartfunds beat --loglevel=debug --pidfile=/tmp/celerybeat.pid
     volumes:
       - .:/app
       - pip_cache:/root/.cache/pip
@@ -98,7 +98,7 @@ services:
       redis:
         condition: service_started
     env_file:
-      - .env.development
+      - env/.env.development
     environment:
       - DEBUG=1
 

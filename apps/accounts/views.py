@@ -15,7 +15,7 @@ from .serializers import (
     UserProfileSerializer, LoginAttemptSerializer, UserStatsSerializer
 )
 from .permissions import (
-    IsAdminUser, IsOwnerOrAdmin, CanAccessFrontend,
+    IsAdminUser, IsOwnerOrAdmin,
     IsSuperAdmin, CanReviewApplications
 )
 

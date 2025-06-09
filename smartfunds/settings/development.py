@@ -1,5 +1,5 @@
 """
-Development settings for smartfunds_backend project.
+Development settings for smartfunds project.
 """
 
 import warnings
@@ -29,13 +29,13 @@ DATABASES['default'].update({
 INSTALLED_APPS += [
     'debug_toolbar',
     'django_extensions',
-    'django_silk',
+    'silk',
 ]
 
 # Add development middleware
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django_silk.middleware.SilkyMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ] + MIDDLEWARE
 
 # Debug Toolbar Configuration
@@ -179,11 +179,11 @@ LOGGING.update({
             'level': 'DEBUG',
             'propagate': False,
         },
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
+        # 'django.db.backends': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': False,
+        # },
         'celery': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
@@ -244,3 +244,4 @@ print(f"🗄️ Cache Backend: {CACHES['default']['BACKEND']}")
 print(f"⚡ Celery Eager: {CELERY_TASK_ALWAYS_EAGER}")
 print(
     f"🔍 SQL Logging: {'Enabled' if 'django.db.backends' in LOGGING['loggers'] else 'Disabled'}")
+print(f"📦 Installed Apps: {INSTALLED_APPS}")

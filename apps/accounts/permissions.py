@@ -49,7 +49,7 @@ class CanApplyForFunds(BaseRolePermission):
     """
     Permission for users who can apply for funds
     """
-    allowed_roles = [User.UserRole.FUND_APPLICANT]
+    allowed_roles = [User.UserRole.CITIZEN]
 
 
 class CanReviewApplications(BaseRolePermission):

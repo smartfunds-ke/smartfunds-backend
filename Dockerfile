@@ -36,7 +36,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Set production environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    DJANGO_SETTINGS_MODULE=smartfunds_backend.settings.production
+    DJANGO_SETTINGS_MODULE=smartfunds.settings.production
 
 WORKDIR /app
 

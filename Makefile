@@ -1,20 +1,20 @@
-.PHONY: help dev prod build-dev build-prod up-dev up-prod:
-	docker-compose -f docker-compose.prod.yml up -d
+.PHONY: help dev prod build-dev build-prod up-dev up-prod down-dev down-prod down logs shell test clean migrate migrate-prod collectstatic createsuperuser
+	
 
 # Common commands
 down:
-	docker-compose -f docker-compose.dev.yml down || true
-	docker-compose -f docker-compose.prod.yml down || true
+	docker compose -f docker-compose.dev.yml down || true
+	docker compose -f docker-compose.prod.yml down || true
 
 logs:
 	@if [ -z "$(ARGS)" ]; then \
-		docker-compose -f docker-compose.dev.yml logs -f; \
+		docker compose -f docker-compose.dev.yml logs -f; \
 	else \
-		docker-compose -f docker-compose.dev.yml logs -f $(ARGS); \
+		docker compose -f docker-compose.dev.yml logs -f $(ARGS); \
 	fi
 
 shell:
-	docker-compose -f docker-compose.dev.yml exec web python manage.py shell
+	docker compose -f docker-compose.dev.yml exec web python manage.py shell
 
 test:
 	docker-compose -f docker-compose.dev.yml exec web python manage.py test
@@ -84,6 +84,8 @@ help:
 	@echo "  build-prod    - Build production images"
 	@echo "  up-dev        - Start dev services (without build)"
 	@echo "  up-prod       - Start prod services (without build)"
+	@echo "  down-dev      - Stop development services"
+	@echo "  down-prod     - Stop production services"
 	@echo "  down          - Stop all services"
 	@echo "  logs          - Show logs (use ARGS='service-name' for specific service)"
 	@echo "  shell         - Access Django shell in development"
@@ -94,19 +96,22 @@ help:
 	@echo "  createsuperuser - Create Django superuser"
 
 # Development commands
-dev: build-dev up-dev
+dev: build-dev up-dev down-dev
 
 build-dev:
-	docker-compose -f docker-compose.dev.yml build
+	docker compose -f docker-compose.dev.yml build
 
 up-dev:
-	docker-compose -f docker-compose.dev.yml up -d
+	docker compose -f docker-compose.dev.yml up
+
+down-dev:
+	docker compose -f docker-compose.dev.yml down || true
 
 # Production commands
 prod: build-prod up-prod
 
 build-prod:
-	docker-compose -f docker-compose.prod.yml build
+	docker compose -f docker-compose.prod.yml build
 
 up-prod:
-	docker-compose -f docker-compose.prod.yml up -d
+	docker compose -f docker-compose.prod.yml up -d

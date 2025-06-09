@@ -61,6 +61,10 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+# Collect static files
+staticfiles/
+static/
+
 # Flask stuff:
 instance/
 .webassets-cache
