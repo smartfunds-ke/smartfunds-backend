@@ -73,7 +73,7 @@ if [ "$1" = "gunicorn" ] || [ "$1" = "python" ] && [ "$2" = "manage.py" ] && [ "
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists():
-    User.objects.create_superuser('$DJANGO_SUPERUSER_USERNAME', '$DJANGO_SUPERUSER_EMAIL', '$DJANGO_SUPERUSER_PASSWORD')
+    User.objects.create_superuser(username='$DJANGO_SUPERUSER_USERNAME', email='$DJANGO_SUPERUSER_EMAIL', password='$DJANGO_SUPERUSER_PASSWORD', first_name='$DJANGO_SUPERUSER_FIRST_NAME', last_name='$DJANGO_SUPERUSER_LAST_NAME', phone_number='$DJANGO_SUPERUSER_PHONE_NUMBER')
     print('Superuser created')
 else:
     print('Superuser already exists')
